@@ -15,17 +15,36 @@
     <h2>Søk etter bilder</h2>
     <input type="text" id="imageSearch" placeholder="Søk..." onkeyup="searchImages()">
 
+    <div id="imageContainer">
+        <div class="image-item" data-tags="historie kultur">
+            <img src="https://via.placeholder.com/100" alt="Historie">
+            <p>📜 Historie</p>
+        </div>
+        <div class="image-item" data-tags="vitenskap teknologi">
+            <img src="https://via.placeholder.com/100" alt="Vitenskap">
+            <p>🔬 Vitenskap</p>
+        </div>
+        <div class="image-item" data-tags="kunst maleri">
+            <img src="https://via.placeholder.com/100" alt="Kunst">
+            <p>🎨 Kunst</p>
+        </div>
+        <div class="image-item" data-tags="musikk instrumenter">
+            <img src="https://via.placeholder.com/100" alt="Musikk">
+            <p>🎵 Musikk</p>
+        </div>
+    </div>
+
     <script>
         function searchImages() {
             const input = document.getElementById('imageSearch').value.toLowerCase();
             console.log("Søkeord:", input);
             const items = document.getElementsByClassName('image-item');
 
-            for (let item of items) {
-                const tags = item.getAttribute('data-tags').toLowerCase();
-                console.log("Sjekker tag:", tags);
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const tags = item.getAttribute('data-tags');
 
-                if (tags.includes(input)) {
+                if (tags && tags.toLowerCase().includes(input)) {
                     item.style.display = 'inline-block';
                 } else {
                     item.style.display = 'none';
