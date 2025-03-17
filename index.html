@@ -6,7 +6,7 @@
     <title>Søk etter bilder</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
-        input { padding: 8px; margin-bottom: 10px; }
+        input { padding: 8px; margin-bottom: 10px; width: 200px; }
         .image-item { padding: 5px; margin: 5px; display: inline-block; text-align: center; }
         img { width: 100px; height: auto; border-radius: 5px; }
     </style>
@@ -16,25 +16,37 @@
     <input type="text" id="imageSearch" placeholder="Søk..." onkeyup="searchImages()">
 
     <div id="imageContainer">
-        <div class="image-item" data-tags="historie kultur">
+        <div class="image-item" data-tags="historie kultur museum">
             <img src="https://via.placeholder.com/100" alt="Historie">
             <p>📜 Historie</p>
         </div>
-        <div class="image-item" data-tags="vitenskap teknologi">
+
+        <div class="image-item" data-tags="vitenskap teknologi forskning">
             <img src="https://via.placeholder.com/100" alt="Vitenskap">
             <p>🔬 Vitenskap</p>
         </div>
-        <div class="image-item" data-tags="kunst maleri">
+
+        <div class="image-item" data-tags="kunst maleri skulptur">
             <img src="https://via.placeholder.com/100" alt="Kunst">
             <p>🎨 Kunst</p>
         </div>
-        <div class="image-item" data-tags="musikk instrumenter">
+
+        <div class="image-item" data-tags="musikk instrumenter rock">
             <img src="https://via.placeholder.com/100" alt="Musikk">
             <p>🎵 Musikk</p>
         </div>
     </div>
 
     <script>
+        // Synonym-liste for lignende ord
+        const synonyms = {
+            "museum": ["historie", "kultur", "utstilling"],
+            "historie": ["museum", "fortid", "arkeologi"],
+            "kunst": ["maleri", "skulptur", "utstilling"],
+            "musikk": ["instrumenter", "konsert", "lyd"],
+            "vitenskap": ["forskning", "teknologi", "eksperiment"]
+        };
+
         function searchImages() {
             const input = document.getElementById('imageSearch').value.toLowerCase();
             console.log("Søkeord:", input);
@@ -42,13 +54,21 @@
 
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
-                const tags = item.getAttribute('data-tags');
+                let tags = item.getAttribute('data-tags').toLowerCase().split(" ");
 
-                if (tags && tags.toLowerCase().includes(input)) {
-                    item.style.display = 'inline-block';
-                } else {
-                    item.style.display = 'none';
+                // Sjekker om input finnes i tags eller synonymer
+                let match = tags.includes(input);
+
+                if (!match) {
+                    for (let tag of tags) {
+                        if (synonyms[tag] && synonyms[tag].includes(input)) {
+                            match = true;
+                            break;
+                        }
+                    }
                 }
+
+                item.style.display = match ? 'inline-block' : 'none';
             }
         }
     </script>
