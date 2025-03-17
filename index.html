@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notion Tag Search</title>
+    <title>Søk etter bilder</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
         input { padding: 8px; margin-bottom: 10px; }
-        .tag-item { padding: 5px; border: 1px solid #ccc; margin: 5px; display: inline-block; }
+        .image-item { padding: 5px; margin: 5px; display: inline-block; text-align: center; }
+        img { width: 100px; height: auto; border-radius: 5px; }
     </style>
 </head>
 <body>
     <h2>Søk etter bilder</h2>
-    <input type="text" id="tagSearch" placeholder="Søk..." onkeyup="searchTags()">
-    
+    <input type="text" id="imageSearch" placeholder="Søk..." onkeyup="searchImages()">
 
     <script>
-        function searchTags() {
-            const input = document.getElementById('tagSearch').value.toLowerCase();
-            const items = document.getElementsByClassName('tag-item');
-            
+        function searchImages() {
+            const input = document.getElementById('imageSearch').value.toLowerCase();
+            console.log("Søkeord:", input);
+            const items = document.getElementsByClassName('image-item');
+
             for (let item of items) {
                 const tags = item.getAttribute('data-tags').toLowerCase();
-                item.style.display = tags.includes(input) ? '' : 'none';
+                console.log("Sjekker tag:", tags);
+
+                if (tags.includes(input)) {
+                    item.style.display = 'inline-block';
+                } else {
+                    item.style.display = 'none';
+                }
             }
         }
     </script>
